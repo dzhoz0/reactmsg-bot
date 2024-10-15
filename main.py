@@ -1,16 +1,38 @@
-# This is a sample Python script.
+import discord
+import os
+from dotenv import load_dotenv
+import random
+intents = discord.Intents.default()
+intents.members = True
+intents.messages = True
+intents.message_content = True
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+# Initial file
 
+client = discord.Client(intents=intents)
+@client.event
+async def on_ready():
+    print(f'Logged in as {client.user}')
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+@client.event
+async def on_message(message):
+    if message.author == client.user:
+        return
+    print(f'Message from {message.author.id}: {message.content}')
+    rnd = random.randint(0, 5)
+    if rnd != 0:
+        return
 
+    # print(type(message.author.id))
+    if message.author.id == 695503661748453387:
+        await message.add_reaction('🌙')
+    if message.author.id == 558299808947765250:
+        print("zesty?")
+        await message.add_reaction('🍔')
+    if message.author.id == 856005046965633034:
+        await message.add_reaction('🫐')
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+# Get token from .env and run client
+load_dotenv()
+TOKEN = os.getenv('TOKEN')
+client.run(TOKEN)
